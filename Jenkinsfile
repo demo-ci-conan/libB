@@ -21,7 +21,6 @@ def get_stages(id, docker_image, artifactory_name, artifactory_repo, profile, us
     return {
         node {
             docker.image(docker_image).inside("--net=docker_jenkins_artifactory") {
-                //sh "pip uninstall conan"
                 sh "pip install git+git://github.com/czoido/conan.git@hackaton_branch"
                 def scmVars = checkout scm
                 def repo_name = scmVars.GIT_URL.tokenize('/')[3].split("\\.")[0]
