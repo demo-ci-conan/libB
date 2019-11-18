@@ -38,8 +38,6 @@ def get_stages(id, docker_image, artifactory_name, artifactory_repo, profile, us
                         }
 
                         client.run(command: "config install ${config_url}".toString())
-                        client.run(command: "config install -sf hooks -tf hooks https://github.com/conan-io/hooks.git")
-
                         client.remote.add server: server, repo: artifactory_repo, remoteName: remoteName, force: true
 
                         stage("${id}") {
@@ -49,7 +47,7 @@ def get_stages(id, docker_image, artifactory_name, artifactory_repo, profile, us
                         stage("Get dependencies and create app") {
                             String arguments = "--profile ${profile} --lockfile=${lockfile}"
                             client.run(command: "graph lock . ${arguments}".toString())
-                            client.run(command: "create . ${user_channel} ${arguments} --build missing".toString())
+                            client.run(command: "create . ${user_channel} ${arguments} --build ${repo_name} --ignore-dirty".toString())
                             sh "cat ${lockfile}"
                         }
 
