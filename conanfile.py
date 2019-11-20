@@ -18,6 +18,7 @@ class LibB(ConanFile):
 
     def requirements(self):
         self.requires("libA/0.0@demo/testing")
+        self.requires("libF/0.0@demo/testing")
 
     def build(self):
         cmake = CMake(self)
